@@ -8,7 +8,9 @@
 4. Chat with friends  - ``done``
 5. Leave/Delete Group - ``done``
 6. Create a video call (using nextRTC) - ``ERROR - solving`` 
-	``https://stackoverflow.com/questions/46753211/got-an-error-while-configuring-the-nextrtc-websocket-error-during-websocket-ha``
+
+## Link to the Query for the ERROR 
+``https://stackoverflow.com/questions/46753211/got-an-error-while-configuring-the-nextrtc-websocket-error-during-websocket-ha``
 
 ## Feel free to contribute in this project
 
