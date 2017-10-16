@@ -28,6 +28,8 @@
             </props>
         </property>``
 3. Change image upload path in ``UploadController`` as per your need
+4. nextRTC needs HTTPS to run so you need to setup SSL in your localhost. You can follow this step
+	``https://drissamri.be/blog/java/enable-https-in-spring-boot/``
 
 
  # THANK YOU
