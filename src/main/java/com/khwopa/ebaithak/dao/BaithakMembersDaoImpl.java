@@ -72,8 +72,21 @@ public class BaithakMembersDaoImpl implements BaithakMembersDao {
 		
 		JdbcTemplate template = new JdbcTemplate(dataSource);
 		String sql = "DELETE FROM `baithakmembers` WHERE groupId = '"+groupId+"' AND userId = '"+userId+"' ";
-		System.out.println(sql);
+		//System.out.println(sql);
 		template.execute(sql);
+		
+
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		Notification notif = new Notification();
+		notif.setUserId(userId);
+		String message = "You have been kicked from Group (<b>"+groupId+")</b>";
+		notif.setMessage(message);
+		// Mon Jul 17 16:45:16 
+		notif.setCreated_at(new Date().toString().substring(0, 20));
+		session.save(notif);
+		session.getTransaction().commit();
+		
 		
 	}
 	

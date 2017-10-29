@@ -133,6 +133,7 @@ public class BaithakController {
 		msg.setGroupId(group_id);
 		msg.setMessage(ename);
 		msg.setSenderId(my_id);
+		msg.setCreatedAt(new Date().toString());
 		mDao.createMessage(msg);
 		
 		return "redirect:/baithak";

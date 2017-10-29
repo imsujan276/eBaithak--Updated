@@ -39,7 +39,21 @@
 
 </script>
 
+<script type="text/javascript">
+$(document).ready(function(){
+    setInterval(function() {
+    	//$("#Msg").text('ada');
+        $("#Msg").load("<%= request.getContextPath() %>/chatframe?bId=${baithak.id} #chat", function( response, status, xhr ) {
+        	  if ( status == "error" ) {
+        		    var msg = "Sorry but there was an error finding chatframe: ";
+        		    $( "#Msg" ).html( msg + xhr.status + " " + xhr.statusText );
+        		  }
+        		});
+        
+    }, 500); /// in milisecond
+});
 
+</script>
 <!-- 
 **	get all messages using ajax 
 -->
@@ -61,26 +75,29 @@ $(document).ready(function(){
         //data:"",
         contentType: "application/json",
         
-        success: function (data) {
+        success: function (msg) {
             //alert(data + " success");
-            $.each(data, function(index, msg) {
+            var div ="";
+            
+            for(var i=0; i<msg.length; i++) {
             	
                 //console.log(msg); //to print the json data
                 
-                content = "<strong>"+msg.senderId+" : </strong>"+msg.message+"";
+                content = "<strong>"+msg[i]['senderId']+" : </strong>"+msg[i]['message']+"";
                 
-                if (msg.senderId == myId ){
-                	div = "<div class='col-md-10'><div class='alert alert-success' role='alert'>"+content+"</div></div>";
+                if (msg[i]['senderId'] == myId ){
+                	div+= "<div class='col-md-10'><div class='alert alert-success' role='alert'>"+content+"</div></div>";
                 	//div = "<p style='color:red'>"+ msg.message+" "+msg.senderId+"</p>";
-                	$('#Msg').append(div);
+                	//$('#Msg').html(div);
                 }
                 else{
-                	div = "<div class='col-md-8 col-md-offset-4'><div class='alert alert-info' role='alert'>"+content+"</div></div>";
-                	$('#Msg').append(div);
+                	div += "<div class='col-md-8 col-md-offset-4'><div class='alert alert-info' role='alert'>"+content+"</div></div>";
+                	
                 }
                 
                 //$('#response1').html(msg.senderId);
-            });
+            };
+            //$('#Msg').html(div);
         },
         error: function (data) {
             alert(data + " error");
@@ -88,7 +105,7 @@ $(document).ready(function(){
         complete: function (data) {
             // Schedule the next
             //$( "#Msg" ).remove();
-            //setTimeout(doAjax, interval);
+            setTimeout(doAjax, interval);
     	}
     });
 	}
@@ -97,14 +114,15 @@ $(document).ready(function(){
 });
 
 </script>
+<div id="Msg"></div>
 
 
 <!-- 
 **	including chatframe.jsp in main body
--->
+
 <iframe src="chatframe?bId=${baithak.id}" width="100%" height="72%"></iframe>
 
-
+-->
 <!-- 
 **	main chat or message area 
 -->

@@ -1,6 +1,7 @@
 package com.khwopa.ebaithak.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -14,13 +15,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.khwopa.ebaithak.models.Baithak;
+import com.khwopa.ebaithak.models.Notification;
 
 @Repository
 public class BaithakDaoImpl implements BaithakDao {
 
 	//hibernate object
 	@Resource
-	private SessionFactory sessionFctory;
+	private SessionFactory sessionFactory;
 	
 	//jdbc object
 	@Autowired
@@ -38,13 +40,16 @@ public class BaithakDaoImpl implements BaithakDao {
 		
 		jdbcTemplate.update(insertSql,new Object[]{b.getCreated_by(), b.getDiscription(), b.getImage(), b.getName()});
 		
-//		Notification notif = new Notification();
-//		notif.setUserId(b.getCreated_by());
-//		String message = "Baithak (<b>"+b.getName()+")</b> has been created.";
-//		notif.setMessage(message);
-//		// Mon Jul 17 16:45:16 
-//		notif.setCreated_at(new Date().toString().substring(0, 20));
-//		session.save(notif);
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		Notification notif = new Notification();
+		notif.setUserId(b.getCreated_by());
+		String message = "Baithak (<b>"+b.getName()+")</b> has been created.";
+		notif.setMessage(message);
+		// Mon Jul 17 16:45:16 
+		notif.setCreated_at(new Date().toString().substring(0, 20));
+		session.save(notif);
+		session.getTransaction().commit();
 	
 	}
 
@@ -55,6 +60,7 @@ public class BaithakDaoImpl implements BaithakDao {
 		String sql = "DELETE FROM `baithak` WHERE id = '"+id+"' ";
 		System.out.println(sql);
 		template.execute(sql);
+		
 		return true;
 		
 	}
@@ -89,7 +95,7 @@ public class BaithakDaoImpl implements BaithakDao {
 	@Override
 	public Baithak getBaithak(Long id) {
 		
-		Session session = sessionFctory.openSession();
+		Session session = sessionFactory.openSession();
 		Baithak baithak= (Baithak) session.get(Baithak.class, id);
 		session.close();
 		return baithak;

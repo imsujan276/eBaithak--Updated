@@ -5,14 +5,14 @@
 <%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions" %>
 
 <!-- refresh the page after 3 seconds. -->
-<% response.setIntHeader("Refresh", 1); %>
+<%-- response.setIntHeader("Refresh", 1); --%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title></title>
+	<title>Chat</title>
 
 	<link href="resources/css/chat.css" type="text/css" rel="stylesheet" />
 	<link href="resources/css/bootstrap.min.css" type="text/css"
@@ -35,8 +35,9 @@ $(document).ready(function(){
 	<div id="chat" style="background:#E8E8E8; overflow-y: auto; overflow-x: hidden; height: 468px;">
 		<div class="col-md-12 col-sm-12 col-xs-12" style="height: 400px;">
 			<div class="row" style="padding-left:10px; padding-right:10px;">
-			
+		
 				<c:forEach var="result" items="${messageList}">
+				
 					<c:choose>			
 					
 						<c:when test="${result.senderId == myId}">
@@ -73,7 +74,7 @@ $(document).ready(function(){
 																		<div class="popover fade left in" style="left:-10px; display: block;">
 																			<div class="arrow" style="top: 50%;"></div>
 																			<div class="popover-content" style="color:#FFF;">
-																				<a href="resources/files/${rst.file}" >
+																				<a href="resources/files/${rst.file}" download="${rst.file}" style="color:#fff">
 																					${result.message}&nbsp;
 																					<img src="resources/img/download.png" width="25px" height="25px">
 																				</a>
@@ -138,7 +139,7 @@ $(document).ready(function(){
 																		<div class="popover fade right in" style="left:0px; display: block;">
 																			<div class="arrow" style="top: 50%;"></div>
 																			<div class="popover-content">
-																				<a href="resources/files/${rst.file}" >
+																				<a href="resources/files/${rst.file}" download="${rst.file}" style="color:#fff">
 																					${result.message}&nbsp;
 																					<img src="resources/img/download.png" width="25px" height="25px">
 																				</a>
