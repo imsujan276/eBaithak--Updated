@@ -104,4 +104,32 @@ public class FriendsController {
 		model.addAttribute("baithakList", bDao.getAllBaithak(userId));
 		return "redirect:/home";
 	}
+	
+	
+	/**
+	 * 	Controller for the view of  confirming the friend request.
+	 */
+	@RequestMapping(value="/confirmFriend", method=RequestMethod.POST)
+	public String confirmFriend(HttpServletRequest request){		
+		
+		String id = request.getParameter("friendsTableId");
+		Long ftId = Long.parseLong(id);
+		fDao.confirmFriend(ftId);
+		return "redirect:/home";
+		
+	}
+	
+	/**
+	 * 	Controller for the view of canceling the friend request.
+	 */
+	@RequestMapping(value="/cancelFriend", method=RequestMethod.POST)
+	public String removeConfirmMember(HttpServletRequest request){		
+		
+		String id = request.getParameter("friendsTableId");
+		Long ftId = Long.parseLong(id);
+		fDao.cancelFriend(ftId);
+		return "redirect:/home";
+		
+	}
+	
 }

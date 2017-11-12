@@ -4,7 +4,7 @@
 
 <c:forEach var="result" items="${userDetail}">
 	<div align="center">
-		<img src="resources/userImg/${result.photo}" alt="profile" class="thumbnail" width="180px" height="180px">
+		<img src="resources/userImg/${result.photo}" alt="profile" class="thumbnail" width="150px" height="150px">
 		<h3>${result.name}</h3>
 		<p>@${result.username}</p>
 	</div>
@@ -12,18 +12,14 @@
 
 <br>
 
-
-<h4 align="center" style="color:BLUE;">Search Friends</h4>
 <form action="searchfriend" method="post" model="user">
 	<div align="center">
-		<input type="search" class="form-control text-center" value="" name="username" placeholder="search...">
+		<input type="search" class="form-control text-center" value="" name="username" placeholder="Search Friends...">
 	</div>
 </form>
 
-<br>
 
-
-<h3 align="center" style="color:BLUE;">Friends</h3>
+<h4 align="center">Friends</h4>
 <div class="col-md-12" id="" style="overflow-y: scroll; overflow-x: hidden; height: 225px;" align="center">
 
 	<c:forEach var="result" items="${friendsList}">

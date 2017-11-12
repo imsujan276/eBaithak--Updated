@@ -50,7 +50,7 @@ public class MessageDaoImpl implements MessageDao{
 	public List<Message> getMessage(long groupId) {
 		
 		JdbcTemplate template = new JdbcTemplate(dataSource);
-		String sql = "SELECT * FROM `messgae` WHERE `groupId`='"+groupId+"' order by createdAt desc";
+		String sql = "SELECT * FROM `messgae` WHERE `groupId`='"+groupId+"' ";
 		List<Message> messageList = new ArrayList<Message>();
 
 		List<Map<String, Object>> rows = template.queryForList(sql);

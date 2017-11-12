@@ -13,7 +13,7 @@
 				<img class="himg" src="resources/img/baithak.png" width="180px"> 
 				<small style="color:FFF; font-size:14px;">
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					Real-Time Group Text and Video Communication
+					Real-Time Group Text Communication
 				</small>
 			</a>
 		</div>

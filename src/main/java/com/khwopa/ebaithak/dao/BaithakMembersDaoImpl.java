@@ -72,21 +72,8 @@ public class BaithakMembersDaoImpl implements BaithakMembersDao {
 		
 		JdbcTemplate template = new JdbcTemplate(dataSource);
 		String sql = "DELETE FROM `baithakmembers` WHERE groupId = '"+groupId+"' AND userId = '"+userId+"' ";
-		//System.out.println(sql);
+		System.out.println(sql);
 		template.execute(sql);
-		
-
-		Session session = sessionFactory.openSession();
-		session.beginTransaction();
-		Notification notif = new Notification();
-		notif.setUserId(userId);
-		String message = "You have been kicked from Group (<b>"+groupId+")</b>";
-		notif.setMessage(message);
-		// Mon Jul 17 16:45:16 
-		notif.setCreated_at(new Date().toString().substring(0, 20));
-		session.save(notif);
-		session.getTransaction().commit();
-		
 		
 	}
 	
@@ -102,11 +89,58 @@ public class BaithakMembersDaoImpl implements BaithakMembersDao {
 	
 	
 	@Override
+	public List<BaithakMembers> confirmMember(long userId) {
+	
+		JdbcTemplate template = new JdbcTemplate(dataSource);
+		List<BaithakMembers> memberList = new ArrayList<BaithakMembers>();
+		String sql = "SELECT * FROM baithakmembers WHERE userId = '"+userId+"' AND status = 0";
+		List<Map<String, Object>> rows = template.queryForList(sql);
+		for (Map<?, ?> row : rows) {
+			BaithakMembers bmember = new BaithakMembers();
+			bmember.setId((Long) row.get("id"));
+			bmember.setAddedBy((Long) row.get("addedBy"));
+			bmember.setGroupId((Long) row.get("groupId"));
+			bmember.setUserId((Long) row.get("userId"));
+			
+			User u = uDao.getUser((Long) row.get("addedBy"));
+			bmember.setSenderName(u.getName());
+			
+			Baithak b = bDao.getBaithak((Long) row.get("groupId"));
+			bmember.setGroupName(b.getName());
+			
+			memberList.add(bmember);
+		}
+		return memberList;
+		
+	}
+	
+	
+	@Override
+	public void confirmAddMember(long groupMemberId) {
+		
+		JdbcTemplate template = new JdbcTemplate(dataSource);
+		String sql = " UPDATE `baithakmembers` SET `status`= 1 WHERE `id` = "+groupMemberId+" ";
+		template.execute(sql);
+		
+	}
+	
+
+	@Override
+	public void removeConfirmMember(long groupMemberId) {
+		
+		JdbcTemplate template = new JdbcTemplate(dataSource);
+		String sql = " DELETE FROM `baithakmembers` WHERE `id` = "+groupMemberId+" ";
+		template.execute(sql);
+		
+	}
+	
+	
+	@Override
 	public List<User> getMembers(long groupId) {
 	
 		JdbcTemplate template = new JdbcTemplate(dataSource);
 		List<User> memberList = new ArrayList<User>();
-		String sql = "SELECT * FROM baithakmembers WHERE groupId = '"+groupId+"' ";
+		String sql = "SELECT * FROM baithakmembers WHERE groupId = '"+groupId+"' AND status = 1";
 		List<Map<String, Object>> rows = template.queryForList(sql);
 		for (Map<?, ?> row : rows) {
 			User user = new User();
@@ -130,7 +164,7 @@ public class BaithakMembersDaoImpl implements BaithakMembersDao {
 		
 		JdbcTemplate template = new JdbcTemplate(dataSource);
 		List<User> activeMemberList = new ArrayList<User>();
-		String sql = "SELECT * FROM baithakmembers WHERE groupId = '"+groupId+"' ";
+		String sql = "SELECT * FROM baithakmembers WHERE groupId = '"+groupId+"' AND status = 1";
 		List<Map<String, Object>> rows = template.queryForList(sql);
 		for (Map<?, ?> row : rows) {
 			User user = new User();
@@ -155,7 +189,7 @@ public class BaithakMembersDaoImpl implements BaithakMembersDao {
 		
 		JdbcTemplate template = new JdbcTemplate(dataSource);
 		List<Baithak> groupList = new ArrayList<Baithak>();
-		String sql = "SELECT * FROM baithakmembers WHERE userId = '"+userId+"' AND addedBy != '"+userId+"' ";
+		String sql = "SELECT * FROM baithakmembers WHERE userId = '"+userId+"' AND addedBy != '"+userId+"' AND status = 1";
 		List<Map<String, Object>> rows = template.queryForList(sql);
 		for (Map row : rows) {
 			String sql2 = "SELECT * FROM baithak WHERE id = '"+row.get("groupId")+"' ";

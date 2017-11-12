@@ -21,8 +21,8 @@
 				
 				<form action="login" method="post" model="user">
 					<div class="login">
-						<input type="text" placeholder="Username" name="username" value=""  />
-						<input type="password" placeholder="Password" name="password" value="" />
+						<input type="text" placeholder="Username" name="username" value=""  required />
+						<input type="password" placeholder="Password" name="password" value=""  required />
 						<input type="submit" value="Login" />
 					</div><br>
 				</form>				
@@ -34,7 +34,7 @@
 			<div id="wrapper" class="big" style="max-width:600px;">
 			<br>
 				<span class="title">Welcome to e-Baithak</span>
-				<div class="paragraph">Real-Time Group Text and Video Communication</div>
+				<div class="paragraph">Real-Time Group Text Communication</div>
 			</div>
         </header>
         <form action="register" method="post" model="user" enctype="multipart/form-data">

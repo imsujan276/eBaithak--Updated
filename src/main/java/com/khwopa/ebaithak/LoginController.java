@@ -41,14 +41,7 @@ public class LoginController {
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(LoginController.class);
 	
 	
-	/**
-	 * Controller for handling video chat frame.
-	 */
-	@RequestMapping(value="/videochat")
-	public String videochat(){
-		return "videochat";
-	}
-	
+		
 	/**
 	 * Controller for handling home get method.
 	 */
@@ -71,9 +64,11 @@ public class LoginController {
 		model.addAttribute("userDetail", uDao.getDetail(userId));
 		User u = uDao.getUser(userId);
 		model.addAttribute("name", u.getName());
-		model.addAttribute("notifications",nDao.getNotifications(userId));
+//		model.addAttribute("notifications",nDao.getNotifications(userId));
 		model.addAttribute("groupList", bmDao.getAllGroup(userId));
 		model.addAttribute("baithakList", bDao.getAllBaithak(userId));
+		model.addAttribute("confirmMember", bmDao.confirmMember(userId));
+		model.addAttribute("friendRequest", fDao.friendRequest(userId));
 		return "home";
 		
 	}
@@ -154,8 +149,9 @@ public class LoginController {
 			model.addAttribute("userDetail", uDao.getDetail(userId));
 			model.addAttribute("baithakList", bDao.getAllBaithak(userId));
 			model.addAttribute("groupList", bmDao.getAllGroup(userId));
-			System.out.println(bmDao.getAllGroup(userId));
 			model.addAttribute("notifications",nDao.getNotifications(userId));
+			model.addAttribute("confirmMember", bmDao.confirmMember(userId));
+			model.addAttribute("friendRequest", fDao.friendRequest(userId));
 			
 			return "home";
 		}

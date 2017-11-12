@@ -43,10 +43,65 @@
 
 
 <!-------------------------------- Notification Area ------------------------------------->
-		<c:forEach var="result" items="${notifications}">
-			<div class="a alert alert-success alert-dismissible" role="alert">
+		<c:forEach var="result" items="${friendRequest}">
+			<div class="alert alert-success alert-dismissible" role="alert">
 				<button type="button" class="close" data-dismiss="alert"
 					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				
+				<table>
+						<tr>
+							<td><b>${result.senderName}</b> send you a friend request.&nbsp;&nbsp;&nbsp;</td>
+							<td style="padding-top:15px;">
+								<form action="confirmFriend" method="post">
+									<input type="hidden" name="friendsTableId" value="${result.id}">
+									<button type="submit"  class="btn btn-success">Confirm</button>
+								</form>			
+							</td>
+							<td style="padding-top:15px;">
+								<form action="cancelFriend" method="post">	
+									<input type="hidden" name="friendsTableId" value="${result.id}">
+									<button type="submit" class="btn btn-danger">Delete</button>
+								</form>
+							</td>
+						</tr>
+				</table>
+		
+			</div>
+		</c:forEach>
+		
+		<c:forEach var="result" items="${confirmMember}">
+			<div class="alert alert-success alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				
+				<table>
+						<tr>
+							<td><b>${result.senderName}</b> have added you to <b>${result.groupName}</b> group.&nbsp;&nbsp;&nbsp;</td>
+							<td style="padding-top:15px;">
+								<form action="confirmAddMember" method="post">
+									<input type="hidden" name="baithakMemberId" value="${result.id}">
+									<button type="submit"  class="btn btn-success">Confirm</button>
+								</form>			
+							</td>
+							<td style="padding-top:15px;">
+								<form action="removeConfirmMember" method="post">	
+									<input type="hidden" name="baithakMemberId" value="${result.id}">
+									<button type="submit" class="btn btn-danger">Delete</button>
+								</form>
+							</td>
+						</tr>
+				</table>
+		
+			</div>
+		</c:forEach>
+		
+		<c:forEach var="result" items="${notifications}">
+			<div class="a alert alert-success alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 				${result.message} on <strong>${result.created_at}</strong>
@@ -127,16 +182,16 @@
 				<div class="modal-body">
 					<div class="form-group">
 						<label for="gName">Group Name:</label> 
-						<input type="text" class="form-control" id="name" placeholder="Group Name" name="name" value="">
+						<input type="text" class="form-control" id="name" placeholder="Group Name" name="name" value="" required >
 					</div>
 					<div class="form-group">
 						<label for="gDesc">Description :</label> 
 						<input type="text" class="form-control" id="discription" placeholder="Short Description for the group" 
-							name="discription" value="">
+							name="discription" value="" required >
 					</div>
 					<div class="form-group">
 						<label for="gPhoto">Group Picture :</label> 
-						<input type="file" accept="image/*" id="gPhoto" name="gPhoto" value="">
+						<input type="file" accept="image/*" id="gPhoto" name="gPhoto" value="" required >
 						<p class="help-block">
 							<span style="color: red">* </span> Select Suitable Group Picture.<br>
 							<span style="color: red">* </span> You can add the members after creating the group.

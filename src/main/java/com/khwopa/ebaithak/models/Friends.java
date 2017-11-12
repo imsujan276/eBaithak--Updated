@@ -20,6 +20,11 @@ public class Friends {
 	
 	@Column
 	private Long friendId;
+	
+	@Column
+	private int status;
+	
+	private String senderName;
 
 	public long getId() {
 		return id;
@@ -45,5 +50,20 @@ public class Friends {
 		this.friendId = friendId;
 	}
 
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public String getSenderName() {
+		return senderName;
+	}
+
+	public void setSenderName(String senderName) {
+		this.senderName = senderName;
+	}
 
 }

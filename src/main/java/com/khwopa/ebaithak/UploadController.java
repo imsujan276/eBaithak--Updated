@@ -143,7 +143,6 @@ public class UploadController {
 			msg.setMessage(attachment);
 			msg.setGroupId(groupId);
 			msg.setSenderId(userId);
-			msg.setCreatedAt(new Date().toString());
 			mDao.createMessage(msg);
 			
 			Attachment a = new Attachment();

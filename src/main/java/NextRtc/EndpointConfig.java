@@ -18,4 +18,11 @@ public class EndpointConfig {
     public ServerEndpointExporter serverEndpointExporter() {
         return new ServerEndpointExporter();
     }
+    
+//    public void registerStompEndpoints(StompEndpointRegistry registry) {
+//    	registry.addEndpoint("/ws")
+//    	.setHandshakeHandler(new DefaultHandshakeHandler(new TomcatRequestUpgradeStrategy()))
+//    	.withSockJS();
+//    }
+    
 }

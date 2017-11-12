@@ -13,7 +13,7 @@
 
 
 <p style="color: BLUE; font-size: 18px;" align="center">
-	<Strong>Active Members :</Strong>
+	<Strong>Online Members :</Strong>
 <p>
 <div class="col-md-12" style="overflow-x: hidden; overflow-y: scroll; height: 250px;">
 	<c:forEach var="result" items="${activeMemberList}">

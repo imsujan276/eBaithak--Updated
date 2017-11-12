@@ -6,16 +6,14 @@
 	<c:when test="${myId == baithak.created_by}">
 		<hr>
 			<p align="center">
-			<a href="" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-lg">
-					+ Add Members
-			</a>
+				<a href="" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-lg">+ Add Members</a>
 			</p>
 		<hr>	
 	</c:when>
 	<c:otherwise>
 		<hr>
 			<p align="center">
-				<a class="btn btn-primary btn-lg" data-toggle="modal" data-target="#leaveModal">Leave Group</a>
+				<a class="btn btn-danger btn-lg" data-toggle="modal" data-target="#leaveModal">Leave Group</a>
 			</p>
 		<hr>
 	</c:otherwise>
@@ -128,7 +126,8 @@
         <h4 class="modal-title">Are you sure to leave <b>${baithak.name}</b> group?</h4>
       </div>
       <div class="modal-body">
-        <p>Once you leave <b>${baithak.name}</b> group, you will not be able to visit the group. This process is irreversible...</p>
+        <p>Once you leave <b>${baithak.name}</b> group, you will not be able to visit the group. This process is irreversible.</p>
+        <textarea rows="5" cols ="10" class="form-control" name="message" required placeholder="Describe the resaon why you want to leave this group"></textarea>
       </div>
       <div class="modal-footer">
 		<form action="leavegroup" method="POST">

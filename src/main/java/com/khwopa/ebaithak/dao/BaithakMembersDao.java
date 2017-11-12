@@ -23,4 +23,10 @@ public interface BaithakMembersDao {
 	public List<Baithak> getAllGroup(long userId);
 	
 	public int isExist(long gId, long uId);
+	
+	public List<BaithakMembers>confirmMember(long uId);
+	
+	public void confirmAddMember(long bmId);
+	
+	public void removeConfirmMember(long bmId);
 }

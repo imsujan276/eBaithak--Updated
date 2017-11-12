@@ -1,7 +1,6 @@
 package com.khwopa.ebaithak.dao;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,14 +14,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.khwopa.ebaithak.models.Baithak;
-import com.khwopa.ebaithak.models.Notification;
+import com.khwopa.ebaithak.models.Leave;
 
 @Repository
 public class BaithakDaoImpl implements BaithakDao {
 
 	//hibernate object
 	@Resource
-	private SessionFactory sessionFactory;
+	private SessionFactory sessionFctory;
 	
 	//jdbc object
 	@Autowired
@@ -40,16 +39,13 @@ public class BaithakDaoImpl implements BaithakDao {
 		
 		jdbcTemplate.update(insertSql,new Object[]{b.getCreated_by(), b.getDiscription(), b.getImage(), b.getName()});
 		
-		Session session = sessionFactory.openSession();
-		session.beginTransaction();
-		Notification notif = new Notification();
-		notif.setUserId(b.getCreated_by());
-		String message = "Baithak (<b>"+b.getName()+")</b> has been created.";
-		notif.setMessage(message);
-		// Mon Jul 17 16:45:16 
-		notif.setCreated_at(new Date().toString().substring(0, 20));
-		session.save(notif);
-		session.getTransaction().commit();
+//		Notification notif = new Notification();
+//		notif.setUserId(b.getCreated_by());
+//		String message = "Baithak (<b>"+b.getName()+")</b> has been created.";
+//		notif.setMessage(message);
+//		// Mon Jul 17 16:45:16 
+//		notif.setCreated_at(new Date().toString().substring(0, 20));
+//		session.save(notif);
 	
 	}
 
@@ -60,7 +56,6 @@ public class BaithakDaoImpl implements BaithakDao {
 		String sql = "DELETE FROM `baithak` WHERE id = '"+id+"' ";
 		System.out.println(sql);
 		template.execute(sql);
-		
 		return true;
 		
 	}
@@ -95,7 +90,7 @@ public class BaithakDaoImpl implements BaithakDao {
 	@Override
 	public Baithak getBaithak(Long id) {
 		
-		Session session = sessionFactory.openSession();
+		Session session = sessionFctory.openSession();
 		Baithak baithak= (Baithak) session.get(Baithak.class, id);
 		session.close();
 		return baithak;
@@ -107,7 +102,40 @@ public class BaithakDaoImpl implements BaithakDao {
 		JdbcTemplate template = new JdbcTemplate(dataSource);
 		String sql = "SELECT id FROM baithak WHERE name='"+b+"' ";
 		Long bId = template.queryForObject(sql, Long.class);
-		return bId;	
+		return bId;
+		
 	}
 
+	
+	@Override
+	public List<Leave> getAllLeaves(Long bId) {
+		
+		JdbcTemplate template = new JdbcTemplate(dataSource);
+		String sql = "SELECT * FROM `tbl_leave` WHERE `baithak_id`='"+bId+"' order by created_at desc";
+		List<Leave> leaveList = new ArrayList<Leave>();
+
+		List<Map<String, Object>> rows = template.queryForList(sql);
+		for (Map<?, ?> row : rows) {
+			Leave l = new Leave();
+			l.setUsername((String) row.get("username"));
+			l.setBaithak_id((Long) row.get("baithak_id"));
+			l.setMessage((String) row.get("message"));
+			l.setCreated_at((String) row.get("created_at"));
+			leaveList.add(l);
+		}
+		return leaveList;
+	}
+
+	@Override
+	public void addLeave(Leave leave) {
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		
+		String insertSql = "insert into `tbl_leave`(username, baithak_id, message, created_at) values(?,?,?,?)";
+		
+		jdbcTemplate.update(insertSql,new Object[]{leave.getUsername(), leave.getBaithak_id(),leave.getMessage(),leave.getCreated_at()});
+		
+		
+	}
+	
 }

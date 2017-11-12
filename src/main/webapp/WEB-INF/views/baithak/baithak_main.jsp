@@ -39,21 +39,7 @@
 
 </script>
 
-<script type="text/javascript">
-$(document).ready(function(){
-    setInterval(function() {
-    	//$("#Msg").text('ada');
-        $("#Msg").load("<%= request.getContextPath() %>/chatframe?bId=${baithak.id} #chat", function( response, status, xhr ) {
-        	  if ( status == "error" ) {
-        		    var msg = "Sorry but there was an error finding chatframe: ";
-        		    $( "#Msg" ).html( msg + xhr.status + " " + xhr.statusText );
-        		  }
-        		});
-        
-    }, 500); /// in milisecond
-});
 
-</script>
 <!-- 
 **	get all messages using ajax 
 -->
@@ -75,29 +61,26 @@ $(document).ready(function(){
         //data:"",
         contentType: "application/json",
         
-        success: function (msg) {
+        success: function (data) {
             //alert(data + " success");
-            var div ="";
-            
-            for(var i=0; i<msg.length; i++) {
+            $.each(data, function(index, msg) {
             	
                 //console.log(msg); //to print the json data
                 
-                content = "<strong>"+msg[i]['senderId']+" : </strong>"+msg[i]['message']+"";
+                content = "<strong>"+msg.senderId+" : </strong>"+msg.message+"";
                 
-                if (msg[i]['senderId'] == myId ){
-                	div+= "<div class='col-md-10'><div class='alert alert-success' role='alert'>"+content+"</div></div>";
+                if (msg.senderId == myId ){
+                	div = "<div class='col-md-10'><div class='alert alert-success' role='alert'>"+content+"</div></div>";
                 	//div = "<p style='color:red'>"+ msg.message+" "+msg.senderId+"</p>";
-                	//$('#Msg').html(div);
+                	$('#Msg').append(div);
                 }
                 else{
-                	div += "<div class='col-md-8 col-md-offset-4'><div class='alert alert-info' role='alert'>"+content+"</div></div>";
-                	
+                	div = "<div class='col-md-8 col-md-offset-4'><div class='alert alert-info' role='alert'>"+content+"</div></div>";
+                	$('#Msg').append(div);
                 }
                 
                 //$('#response1').html(msg.senderId);
-            };
-            //$('#Msg').html(div);
+            });
         },
         error: function (data) {
             alert(data + " error");
@@ -105,7 +88,7 @@ $(document).ready(function(){
         complete: function (data) {
             // Schedule the next
             //$( "#Msg" ).remove();
-            setTimeout(doAjax, interval);
+            //setTimeout(doAjax, interval);
     	}
     });
 	}
@@ -114,15 +97,14 @@ $(document).ready(function(){
 });
 
 </script>
-<div id="Msg"></div>
 
 
 <!-- 
 **	including chatframe.jsp in main body
-
+-->
 <iframe src="chatframe?bId=${baithak.id}" width="100%" height="72%"></iframe>
 
--->
+
 <!-- 
 **	main chat or message area 
 -->
@@ -133,7 +115,7 @@ $(document).ready(function(){
 			<div class="input-group">
 				<input type="hidden" name="groupId" value="${baithak.id}"> 
 				<input type="text" class="form-control input-lg" name="message"
-					id="chat_data" placeholder="Enter Message ....." autofocus>
+					id="chat_data" placeholder="Enter Message ....." autofocus required >
 				
 				<!-- <textarea class="form-control" rows="2"></textarea> -->
 				<span class="input-group-btn"> 

@@ -22,6 +22,12 @@ public class BaithakMembers {
 	
 	@Column
 	private long addedBy;
+	
+	@Column
+	private int status;
+	
+	private String senderName;
+	private String groupName;
 
 	public long getId() {
 		return id;
@@ -53,6 +59,30 @@ public class BaithakMembers {
 
 	public void setAddedBy(long addedBy) {
 		this.addedBy = addedBy;
-	}	
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public String getSenderName() {
+		return senderName;
+	}
+
+	public void setSenderName(String senderName) {
+		this.senderName = senderName;
+	}
+
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
 	
 }

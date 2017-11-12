@@ -39,13 +39,15 @@
 				<div class="col-xs-12 col-sm-12 col-md-10">
 					<div class="col-md-12">
 						<jsp:include page="home/home_main.jsp"></jsp:include>
-						<jsp:include page="include/footer.jsp"></jsp:include>
+						<%-- <jsp:include page="include/footer.jsp"></jsp:include> --%>
 					</div>
 				</div>
 
 			</div>
 		</div>
-	
+
+		<jsp:include page="include/baithak_footer.jsp"></jsp:include>
+		
 	</body>
 	
 </html>
